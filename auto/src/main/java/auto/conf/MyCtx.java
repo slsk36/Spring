@@ -1,5 +1,6 @@
 package auto.conf;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,6 +11,7 @@ import auto.service.MemberService;
 public class MyCtx {
 
 	@Bean
+	@Qualifier("md")
 	public MemberDao memberDao() {
 		return new MemberDao();
 	}
