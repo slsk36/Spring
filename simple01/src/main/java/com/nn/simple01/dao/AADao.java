@@ -24,18 +24,21 @@ public class AADao {
 	@Autowired
 	SqlSession sqlSession;
 	
+	public void update(AADto dto) {
+		sqlSession.update("aa.updateaa",dto);
+		System.out.println("수정됨");
+	}
+	
 	public List<AADto> select() {
 		System.out.println("select...");
 		List<AADto> list = sqlSession.selectList("aa.getaa");
-		for(AADto aaDto : list) {
-			System.out.println("aaDto= "+aaDto.toString());
-		}
+//		for(AADto aaDto : list) {
+//			System.out.println("aaDto= "+aaDto.toString());
+//		}
 		return list;
-		
-		
 	}
 	
-	public void insert() {
+	public void insert(AADto dto) {
 		System.out.println("insert...");
 		
 		Connection conn = null;
@@ -43,7 +46,12 @@ public class AADao {
 		
 		try {
 			conn = dataSource.getConnection(); //dataSource 자료형에 커넥션 가져오기
-			pstmt = conn.prepareStatement("insert into aa (bb) values ('this12')");
+			pstmt = conn.prepareStatement("insert into aa " + 
+					"(bb) " + 
+					"values " + 
+					"(?)");
+			
+			pstmt.setString(1, dto.getBb());
 			pstmt.executeUpdate();
 		}catch(Exception e) {
 			e.printStackTrace();

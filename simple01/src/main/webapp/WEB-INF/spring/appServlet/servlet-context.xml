@@ -27,13 +27,21 @@
 		class="org.mybatis.spring.SqlSessionTemplate">
 		<beans:constructor-arg ref="sqlSessionFactory" />
 	</beans:bean>
-
+	
+<!-- oracle 연결 할때 활성화 -->
+<!-- 	<beans:bean id="dataSource" -->
+<!-- 		class="org.apache.commons.dbcp.BasicDataSource"> -->
+<!-- 		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" /> -->
+<!-- 		<beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" /> -->
+<!-- 		<beans:property name="username" value="scott" /> -->
+<!-- 		<beans:property name="password" value="tiger" /> -->
+<!-- 	</beans:bean> -->
 
 <!-- mysql 연결 활성화 -->
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<beans:property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-		<beans:property name="url" value="jdbc:mysql://127.0.0.1:3306/test?serverTimezone=UTC" />
+		<beans:property name="url" value="jdbc:mysql://127.0.0.1:3306/test?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf-8" />
 		<beans:property name="username" value="root" />
 		<beans:property name="password" value="1234" />
 <!-- 		<beans:property name="maxActive" value="20"></beans:property> -->
