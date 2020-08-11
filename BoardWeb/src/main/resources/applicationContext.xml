@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+<context:component-scan base-package="com.springbook.biz">
+</context:component-scan>
+
+<bean id="log" class="com.springbook.biz.common.Log4jAdvice"></bean>
+<bean id="before" class="com.springbook.biz.common.BeforeAdvice"></bean>
+
+<aop:config>
+	<aop:pointcut expression="execution(* com.springbook.biz..*Impl.*(..))" 
+	id="allPointcut" />
+	<aop:pointcut expression="execution(* com.springbook.biz..*Impl.get*(..))" 
+	id="getPointcut" />
+	<aop:aspect ref="before">
+		<aop:before pointcut-ref="allPointcut" method="beforeLog"/>
+	</aop:aspect>
+	
+	<aop:aspect ref="log">
+<!-- 		<aop:before pointcut-ref="allPointcut" method="printLogging"/> -->
+		<aop:after pointcut-ref="getPointcut" method="printLogging"/>
+	</aop:aspect>
+</aop:config>
+<!-- <bean id="tv" class="polymorphism.LgTV"></bean> -->
+
+<!-- <bean id="userService" class="com.springbook.biz.user.impl.UserServiceImpl"> -->
+<!-- 	<property name="userDAO" ref="userDAO"></property> -->
+<!-- </bean> -->
+
+<!-- <bean id="userDAO" class="com.springbook.biz.user.impl.UserDAO"></bean> -->
+
+<!-- dataSource 설정 -->
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+	destroy-method="close">
+	<property name="driverClassName" value="org.h2.Driver"></property>
+	<property name="url" value="jdbc:h2:tcp://localhost/~/test"></property>
+	<property name="username" value="sa"></property>
+	<property name="password" value=""></property>
+</bean>
+<!-- 	<bean id="tv" class="polymorphism.SamsungTV" init-method="initMethod"></bean> -->
+<!-- 	<bean id="tv" class="polymorphism.SamsungTV" destroy-method="destroyMethod"></bean> -->
+<!-- 	<bean id="tv" class="polymorphism.SamsungTV" lazy-init="true"></bean> -->
+<!-- 	<bean id="tv" class="polymorphism.SamsungTV" scope="singleton"></bean> -->
+<!-- 	<bean id="tv" class="polymorphism.SamsungTV" scope="prototype"></bean> -->
+<!-- 	<bean id="collectionBean" -->
+<!-- 		class="com.springbook.ioc.injection.CollectionBean"> -->
+<!-- 		<property name="addressList"> -->
+<!-- 			<list> -->
+<!-- 				<value>대구시 동구 신천동</value> -->
+<!-- 				<value>대구시 북구 사수동</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="tv" class="polymorphism.SamsungTV" p:speake-ref="sony" p:price="2700000"> -->
+<!-- 		<constructor-arg index="0" ref="apple"></constructor-arg> -->
+<!-- 		<constructor-arg index="1" value="2700000"></constructor-arg> --> 
+<!-- 		<property name="speaker" ref="apple"></property> -->
+<!-- 		<property name="price" value="2700000"></property> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="sony" class="polymorphism.SonySpeaker"></bean> -->
+<!-- 	<bean id="apple" class="polymorphism.AppleSpeaker"></bean> -->
+	
+</beans>
